@@ -1,7 +1,11 @@
 class ApplicationController < ActionController::Base
-  rescue_from ActionController::UnknownFormat, with: :raise_not_found
+  include ExceptionHandler
 
-  def raise_not_found
-    raise ActionController::RoutingError.new('Not supported format')
+  protect_from_forgery with: :null_session
+
+  private
+
+  def render_error(message: nil, status: :bad_request)
+    render json: { message: message }, status: status
   end
 end
