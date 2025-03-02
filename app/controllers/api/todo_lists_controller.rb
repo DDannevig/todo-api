@@ -1,17 +1,15 @@
 module Api
   class TodoListsController < ApplicationController
-    # POST /todolists
+    # POST /api/todolists
     def create
       todo_list = TodoList.create!(name: params.require(:name))
 
       render json: todo_list, status: :ok
     end
 
-    # # GET /api/todolists
-    # def index
-    #   @todo_lists = TodoList.all
-
-    #   respond_to :json
-    # end
+    # GET /api/todolists
+    def index
+      render json: TodoList.all, status: :ok
+    end
   end
 end
