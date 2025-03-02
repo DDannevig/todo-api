@@ -9,7 +9,7 @@ module ExceptionHandler
   private
 
   def raise_not_found
-    raise ActionController::RoutingError.new('Not supported format')
+    render_error(status: :not_found, message: I18n.t('errors.invalid_format'))
   end
 
   def parameter_missing(exception)

@@ -1,43 +1,10 @@
 require 'rails_helper'
 
 describe Api::TodoListsController do
-  # render_views
-
-  # describe 'GET index' do
-  #   let!(:todo_list) { TodoList.create(name: 'Setup RoR project') }
-
-  #   context 'when format is HTML' do
-  #     it 'raises a routing error' do
-  #       expect {
-  #         get :index
-  #       }.to raise_error(ActionController::RoutingError, 'Not supported format')
-  #     end
-  #   end
-
-  #   context 'when format is JSON' do
-  #     it 'returns a success code' do
-  #       get :index, format: :json
-
-  #       expect(response.status).to eq(200)
-  #     end
-
-  #     it 'includes todo list records' do
-  #       get :index, format: :json
-
-  #       todo_lists = JSON.parse(response.body)
-
-  #       aggregate_failures 'includes the id and name' do
-  #         expect(todo_lists.count).to eq(1)
-  #         expect(todo_lists[0].keys).to match_array(['id', 'name'])
-  #         expect(todo_lists[0]['id']).to eq(todo_list.id)
-  #         expect(todo_lists[0]['name']).to eq(todo_list.name)
-  #       end
-  #     end
-  #   end
-  # end
+  render_views
 
   describe 'POST create' do
-    subject { post :create, params: }
+    subject { post :create, params: params, format: :json }
 
     let(:params) { { name: Faker::Hobby.activity } }
 
@@ -59,6 +26,42 @@ describe Api::TodoListsController do
             expect(response.parsed_body['id']).to eq(TodoList.last.id)
             expect(response.parsed_body['name']).to eq(TodoList.last.name)
           end
+        end
+      end
+    end
+  end
+
+  describe 'GET index' do
+    subject { get :index, format: format }
+
+    let(:todo_list) { TodoList.create(name: 'Setup RoR project') }
+
+    before do
+      todo_list
+      subject
+    end
+
+    context 'when format is HTML' do
+      let(:format) { 'HTML' }
+
+      it 'raises a routing error' do
+        expect(response.parsed_body).to eq({ 'message' => I18n.t('errors.invalid_format') })
+      end
+    end
+
+    context 'when format is JSON' do
+      let(:format) { 'json' }
+
+      it 'returns a success code' do
+        expect(response.status).to eq(200)
+      end
+
+      it 'includes todo list records' do
+        aggregate_failures 'includes the id and name' do
+          expect(response.parsed_body.count).to eq(1)
+          expect(response.parsed_body.first.keys).to match_array(%w[id name])
+          expect(response.parsed_body.first['id']).to eq(todo_list.id)
+          expect(response.parsed_body.first['name']).to eq(todo_list.name)
         end
       end
     end

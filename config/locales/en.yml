@@ -31,3 +31,5 @@
 
 en:
   hello: "Hello world"
+  errors:
+   invalid_format: 'Not supported format'
