@@ -3,4 +3,6 @@ class TodoItem < ApplicationRecord
   validates :description, presence: true
 
   belongs_to :todo_list
+
+  scope :unfinished_items, -> { where(completed: false) }
 end
