@@ -30,6 +30,14 @@ module Api
       end
     end
 
+    # DELETE /api/todolists/:todo_list_id/todos/:id
+    def destroy
+      todo_item = todo_list.todo_items.find(params[:id])
+      todo_item.destroy!
+
+      respond_to :json
+    end
+
     private
 
     def todo_list
