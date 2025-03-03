@@ -155,4 +155,48 @@ describe Api::TodoListsController do
       end
     end
   end
+
+  describe 'DELETE destroy' do
+    subject { delete :destroy, params: params, format: format }
+
+    let(:todo_list) { TodoList.create(name: Faker::Hobby.activity) }
+    let(:todo_list_id) { todo_list.id }
+    let(:params) { { id: todo_list_id } }
+
+    it_behaves_like 'bad request when format invalid'
+
+    context 'with json format' do
+      let(:format) { 'json' }
+
+      context 'when the todo_list does not exist' do
+        let(:todo_list_id) { TodoList.last.id + 1 }
+
+        before do
+          todo_list
+          subject
+        end
+
+        it 'raises record not found error' do
+          message = "Couldn't find TodoList with 'id'=#{todo_list_id}"
+
+          aggregate_failures 'responds with not_found and message' do
+            expect(response.status).to eq 404
+            expect(response.parsed_body['message']).to eq(message)
+          end
+        end
+      end
+
+      context 'when the todo_list exists' do
+        before { todo_list }
+
+        it 'deletes the todo_list' do
+          expect { subject }.to change(TodoList, :count).by(-1)
+        end
+
+        it 'responds with a 204' do
+          expect(subject.status).to eq 204
+        end
+      end
+    end
+  end
 end
