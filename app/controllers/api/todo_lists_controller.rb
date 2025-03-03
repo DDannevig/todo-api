@@ -35,7 +35,11 @@ module Api
 
     # POST /api/todolists/:id/complete
     def complete
-      todo_list.complete_all_items
+      job_id = CompleteAllItemsWorker.perform_async(todo_list.id)
+
+      respond_to do |format|
+        format.json { render json: { job_id: job_id } }
+      end
     end
 
     private
