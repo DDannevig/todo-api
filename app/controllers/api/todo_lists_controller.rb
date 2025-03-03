@@ -16,5 +16,15 @@ module Api
 
       respond_to :json
     end
+
+    # PUT /api/todolists/:id
+    def update
+      todo_list = TodoList.find(params[:id])
+      todo_list.update!(name: params.require(:name))
+
+      respond_to do |format|
+        format.json { render json: todo_list }
+      end
+    end
   end
 end

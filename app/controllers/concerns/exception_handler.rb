@@ -4,6 +4,7 @@ module ExceptionHandler
   included do
     rescue_from ActionController::UnknownFormat, with: :raise_not_found
     rescue_from ActionController::ParameterMissing, with: :parameter_missing
+    rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   end
 
   private
@@ -14,5 +15,9 @@ module ExceptionHandler
 
   def parameter_missing(exception)
     render_error(status: :bad_request, message: exception.original_message)
+  end
+
+  def record_not_found(exception)
+    render_error(status: :not_found, message: exception.message)
   end
 end
