@@ -13,7 +13,19 @@ module Api
     def index
       respond_to do |format|
         format.json do
-          render json: todo_list, option_name: :with_items, include: ['todo_items']
+          render json: todo_list.todo_items
+        end
+      end
+    end
+
+    # PUT /api/todolists/:todo_list_id/todos/:id
+    def update
+      todo_item = todo_list.todo_items.find(params[:id])
+      todo_item.update!(update_params)
+
+      respond_to do |format|
+        format.json do
+          render json: todo_item
         end
       end
     end
@@ -27,6 +39,11 @@ module Api
     def create_params
       params.require(:description)
       params.permit(%i[description completed]).to_h.merge({ todo_list: todo_list })
+    end
+
+    def update_params
+      params.require(:description)
+      params.permit(%i[description completed])
     end
   end
 end
