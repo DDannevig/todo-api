@@ -1,11 +1,21 @@
 module Api
   class TodoItemsController < ApplicationController
-    # POST /api/todos
+    # POST /api/todolists/:todolist_id/todos
     def create
-      todo_list = TodoItem.create!(create_params)
+      new_list = TodoItem.create!(create_params)
 
       respond_to do |format|
-        format.json { render json: todo_list }
+        format.json { render json: new_list }
+      end
+    end
+
+    # GET /api/todolists/:todolist_id/todos
+    def index
+      respond_to do |format|
+        format.json do
+          render json: todo_list, serializer: TodoListWithItemsSerializer,
+                 include: ['todo_items']
+        end
       end
     end
 
