@@ -11,7 +11,7 @@ end
 describe Api::TodoListsController do
   render_views
 
-  describe 'POST create' do
+  describe 'POST #create' do
     subject { post :create, params: params, format: format }
 
     let(:params) { { name: Faker::Hobby.activity } }
@@ -57,7 +57,7 @@ describe Api::TodoListsController do
     end
   end
 
-  describe 'GET index' do
+  describe 'GET #index' do
     subject { get :index, format: format }
 
     let(:todo_list) { TodoList.create(name: 'Setup RoR project') }
@@ -86,12 +86,12 @@ describe Api::TodoListsController do
     end
   end
 
-  describe 'PUT update' do
+  describe 'PUT #update' do
     subject { put :update, params: params, format: format }
 
     let(:todo_list) { TodoList.create(name: Faker::Hobby.activity) }
     let(:todo_list_id) { todo_list.id }
-    let(:params) { { todolist_id: todo_list_id, name: updated_name } }
+    let(:params) { { id: todo_list_id, name: updated_name } }
     let(:updated_name) { Faker::Hobby.activity }
 
     it_behaves_like 'bad request when format invalid'
@@ -156,12 +156,12 @@ describe Api::TodoListsController do
     end
   end
 
-  describe 'DELETE destroy' do
+  describe 'DELETE #destroy' do
     subject { delete :destroy, params: params, format: format }
 
     let(:todo_list) { TodoList.create(name: Faker::Hobby.activity) }
     let(:todo_list_id) { todo_list.id }
-    let(:params) { { todolist_id: todo_list_id } }
+    let(:params) { { id: todo_list_id } }
 
     it_behaves_like 'bad request when format invalid'
 

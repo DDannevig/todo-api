@@ -45,7 +45,7 @@ module Api
     private
 
     def todo_list
-      @todo_list ||= TodoList.find(params[:todolist_id])
+      @todo_list ||= TodoList.find(params[:todolist_id] || params[:id])
     end
   end
 end
