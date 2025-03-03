@@ -19,7 +19,6 @@ module Api
 
     # PUT /api/todolists/:id
     def update
-      todo_list = TodoList.find(params[:id])
       todo_list.update!(name: params.require(:name))
 
       respond_to do |format|
@@ -29,10 +28,20 @@ module Api
 
     # DELETE /api/todolists/:id
     def destroy
-      todo_list = TodoList.find(params[:id])
       todo_list.destroy!
 
       respond_to :json
+    end
+
+    # POST /api/todolists/:id/complete
+    def complete
+      todo_list.complete_all_items
+    end
+
+    private
+
+    def todo_list
+      @todo_list ||= TodoList.find(params[:todolist_id])
     end
   end
 end

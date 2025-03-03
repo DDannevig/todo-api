@@ -91,7 +91,7 @@ describe Api::TodoListsController do
 
     let(:todo_list) { TodoList.create(name: Faker::Hobby.activity) }
     let(:todo_list_id) { todo_list.id }
-    let(:params) { { id: todo_list_id, name: updated_name } }
+    let(:params) { { todolist_id: todo_list_id, name: updated_name } }
     let(:updated_name) { Faker::Hobby.activity }
 
     it_behaves_like 'bad request when format invalid'
@@ -161,7 +161,7 @@ describe Api::TodoListsController do
 
     let(:todo_list) { TodoList.create(name: Faker::Hobby.activity) }
     let(:todo_list_id) { todo_list.id }
-    let(:params) { { id: todo_list_id } }
+    let(:params) { { todolist_id: todo_list_id } }
 
     it_behaves_like 'bad request when format invalid'
 

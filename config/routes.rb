@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do
-    resources :todolists, only: %i[create index update destroy], controller: :todo_lists do
+    resources :todolists, only: %i[create index update destroy], controller: :todo_lists, param: :todolist_id do
+      post :complete, on: :member
       resources :todos, only: %i[create index update destroy], controller: :todo_items
     end
   end
