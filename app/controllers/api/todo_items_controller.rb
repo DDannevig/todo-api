@@ -13,8 +13,7 @@ module Api
     def index
       respond_to do |format|
         format.json do
-          render json: todo_list, serializer: TodoListWithItemsSerializer,
-                 include: ['todo_items']
+          render json: todo_list, option_name: :with_items, include: ['todo_items']
         end
       end
     end
