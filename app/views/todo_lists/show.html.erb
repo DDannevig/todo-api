@@ -1,0 +1,15 @@
+<div>
+    <p>
+      <strong>Name:</strong>
+      <%= @todo_list.name %>
+    </p>
+
+    <div>
+      <%= turbo_stream_from("todo_list_#{@todo_list.id}") %>
+      <% @todo_list.todo_items.each do |todo_item| %>
+        <div id="<%= dom_id(todo_item) %>" >
+          <%= render todo_item %>
+        </div >
+      <% end %>
+    </div>
+</div>

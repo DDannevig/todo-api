@@ -5,7 +5,6 @@ FactoryBot.define do
 
   trait :with_items do
     after :create do |list|
-      # create(:todo_item, todo_list: list)
       create_list(:todo_item, 100, todo_list: list)
     end
   end
