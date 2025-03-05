@@ -4,6 +4,6 @@ class TodoList < ApplicationRecord
   has_many :todo_items
 
   def complete_all_items!
-    todo_items.unfinished_items.in_batches.update_all(completed: true)
+    todo_items.unfinished_items.each(&:complete_task!)
   end
 end

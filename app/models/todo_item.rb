@@ -9,6 +9,10 @@ class TodoItem < ApplicationRecord
   scope :unfinished_items, -> { where(completed: false) }
 
   def broadcast_todo_item
-    broadcast_update_to "todo_list_#{todo_list_id}", target: "todo_item_#{id}"
+    broadcast_update_to "todo_list_#{todo_list_id}"
+  end
+
+  def complete_task!
+    update(completed: true)
   end
 end
